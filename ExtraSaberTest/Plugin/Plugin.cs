@@ -5,14 +5,36 @@ using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
 using Harmony;
 using System.Reflection;
+using UnityEngine;
+using System.Linq;
+using BS_Utils.Utilities;
 
-namespace Plugin
+namespace ExtraSaberTest
 {
     public class Plugin : IBeatSaberPlugin
     {
+        public static PlayerController playerController;
         public void Init(IPALogger logger)
         {
+            BS_Utils.Utilities.BSEvents.gameSceneLoaded += BSEvents_gameSceneLoaded;
             Logger.log = logger;
+        }
+
+        private void BSEvents_gameSceneLoaded()
+        {
+            playerController = GameObject.FindObjectsOfType<PlayerController>().FirstOrDefault();
+            if (playerController == null)
+            {
+                Logger.log.Error("Could not find PlayerController!");
+            }
+
+            if (!(ExtraSaberManager.instance?.enabled ?? false))
+            {
+                ExtraSaberManager.instance = new GameObject("ExtraSaberManager").AddComponent<ExtraSaberManager>();
+            }
+            ExtraSaberManager.instance.addSaber("LeftMaul", Vector3.up * 180, Vector3.zero, Saber.SaberType.SaberB, true);
+            ExtraSaberManager.instance.addSaber("RightMaul", Vector3.up * 180, Vector3.zero, Saber.SaberType.SaberA, false);
+            BS_Utils.Gameplay.ScoreSubmission.DisableSubmission("ExtraSaberTest");
         }
 
         public void OnApplicationStart()

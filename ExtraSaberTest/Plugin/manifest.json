@@ -6,8 +6,8 @@
     "dependsOn": {
         "BSIPA": "^3.12.19"
     },
-    "id": "Plugin",
-    "name": "Plugin",
+    "id": "ExtraSaberTest",
+    "name": "ExtraSaberTest",
     "version": "0.0.1-alpha",
     "features": [],
     "links": {

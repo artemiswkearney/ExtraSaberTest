@@ -1,6 +1,6 @@
 ﻿using IPALogger = IPA.Logging.Logger;
 
-namespace Plugin
+namespace ExtraSaberTest
 {
     internal static class Logger
     {
